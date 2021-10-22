@@ -6,6 +6,7 @@ new Vue({
             gameStarted: false,
             healthYOU: 100,
             healthMONSTER: 100,
+            gameFinished: false,
         }
     },
     methods: {
@@ -29,34 +30,40 @@ new Vue({
         },
         startGame() {
             this.gameStarted = true;
+            this.gameFinished = false;
             this.healthYOU = 100;
             this.healthMONSTER = 100;
         },
         attack() {
             this.YOUattack();
-            this.MONSTERAttack();
+            this.checkWinYOU();
+            if (!this.gameFinished) {
+                console.log("Monster should attack");
+                this.MONSTERAttack();
+                this.checkWinMONSTER();
+            }
         },
         YOUattack() {
-            if (this.healthMONSTER) {
+            if (this.healthMONSTER >= 0) {
                 this.healthMONSTER -= Math.round((Math.random() * 10) + 1);
-                this.checkWinYOU();
             }
         },
         MONSTERAttack() {
             if (this.healthYOU >= 0) {
                 this.healthYOU -= Math.round((Math.random() * 10) + 1);
-                this.checkWinMONSTER();
             }
         },
         checkWinYOU() {
             if (this.healthMONSTER <= 0) {
                 this.healthMONSTER = 0;
+                this.gameFinished = true;
                 this.win('YOU');
             }
         },
         checkWinMONSTER() {
             if (this.healthYOU <= 0) {
                 this.healthYOU = 0;
+                this.gameFinished = true;
                 this.win('MONSTER');
             }
         }
