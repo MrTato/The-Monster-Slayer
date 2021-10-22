@@ -16,6 +16,13 @@ new Vue({
                 color: "white",
                 width: `100%`,
             },
+            healthMONSTER: 100,
+            healthbarMONSTER: {
+                backgroundColor: "green",
+                margin: 0,
+                color: "white",
+                width: `100%`,
+            },
         }
     },
     methods: {
