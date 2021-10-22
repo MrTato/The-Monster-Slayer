@@ -1,17 +1,3 @@
-// while start new game button has not been clicked
-// the only button shown should be start new game
-// the game bars should be at 100
-// the healthbar width should be at 100%
-// the healthbar text should be at 100
-// when start new game is clicked
-// the start new game button should be hidden
-// the player control buttons should be shown
-// while no actions have been performed, the action log should be empty
-// when the action button is clicked
-// the monster's hp should be diminished by a value between 1 and 10
-// the player's hp should be diminished by a value between 1 and 10
-// both logs should be included in the action log
-
 new Vue({
     el: "#app",
     data() {
@@ -47,17 +33,31 @@ new Vue({
             this.healthMONSTER = 100;
         },
         attack() {
-            if (this.healthMONSTER >= 0 && this.healthYOU >= 0) {
+            this.YOUattack();
+            this.MONSTERAttack();
+        },
+        YOUattack() {
+            if (this.healthMONSTER) {
                 this.healthMONSTER -= Math.round((Math.random() * 10) + 1);
+                this.checkWinYOU();
+            }
+        },
+        MONSTERAttack() {
+            if (this.healthYOU >= 0) {
                 this.healthYOU -= Math.round((Math.random() * 10) + 1);
-                if (this.healthMONSTER <= 0) {
-                    this.healthMONSTER = 0;
-                    this.win('YOU');
-                }
-                if (this.healthYOU <= 0) {
-                    this.healthYOU = 0;
-                    this.win('MONSTER');
-                }
+                this.checkWinMONSTER();
+            }
+        },
+        checkWinYOU() {
+            if (this.healthMONSTER <= 0) {
+                this.healthMONSTER = 0;
+                this.win('YOU');
+            }
+        },
+        checkWinMONSTER() {
+            if (this.healthYOU <= 0) {
+                this.healthYOU = 0;
+                this.win('MONSTER');
             }
         }
     }
