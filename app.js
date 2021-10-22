@@ -32,8 +32,33 @@ new Vue({
         startGame() {
             this.gameStarted = true;
             this.healthYOU = 100;
-            console.log(`Start Game: ${this.healthYOU}`);
             this.healthMONSTER = 100;
+            this.actions = [];
+        },
+        logAction(player, action, value) {
+            switch(player) {
+                case "YOU":
+                    switch(action) {
+                        case "ATTACK":
+                        case "SPECIAL ATTACK":
+                            this.actions.unshift({
+                                log: `PLAYER HITS MONSTER FOR ${value}`,
+                                class: "player-turn",
+                            });
+                            break;
+                        case "HEAL":
+                            this.actions.unshift({
+                                log: `PLAYER HEALS HIMSELF FOR ${value}`,
+                                class: "player-turn",
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case "MONSTER":
+                    break;
+            }
         },
         attack() {
             this.playTurn();
@@ -67,12 +92,16 @@ new Vue({
         },
         YOUattack(enhancement) {
             if (this.healthMONSTER >= 0) {
-                this.healthMONSTER -= Math.round((Math.random() * 10) + 1 + enhancement);
+                const value = Math.floor((Math.random() * 10) + 1 + enhancement);
+                this.healthMONSTER -= value;
+                this.logAction("YOU", "ATTACK", value);
             }
         },
         YOUheal(enhancement) {
-            if (this.healthYOU < 100) {
-                this.healthYOU += Math.round((Math.random() * 10) + 1 + enhancement);
+            if (this.healthYOU <= 100) {
+                const value = Math.floor((Math.random() * 10) + 1 + enhancement);
+                this.healthYOU += value;
+                this.logAction("YOU", "HEAL", value)
                 if (this.healthYOU > 100) {
                     this.healthYOU = 100;
                 }
@@ -80,7 +109,7 @@ new Vue({
         },
         MONSTERAttack() {
             if (this.healthYOU >= 0) {
-                this.healthYOU -= Math.round((Math.random() * 10) + 1);
+                this.healthYOU -= Math.floor((Math.random() * 10) + 1);
             }
         },
         checkWinYOU() {
