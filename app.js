@@ -57,6 +57,23 @@ new Vue({
                     }
                     break;
                 case "MONSTER":
+                    switch(action) {
+                        case "ATTACK":
+                        case "SPECIAL ATTACK":
+                            this.actions.unshift({
+                                log: `MONSTER HITS PLAYER FOR ${value}`,
+                                class: "monster-turn",
+                            });
+                            break;
+                        case "HEAL":
+                            this.actions.unshift({
+                                log: `MONSTER HEALS HIMSELF FOR ${value}`,
+                                class: "monster-turn",
+                            });
+                            break;
+                        default:
+                            break;
+                    }
                     break;
             }
         },
@@ -109,7 +126,9 @@ new Vue({
         },
         MONSTERAttack() {
             if (this.healthYOU >= 0) {
-                this.healthYOU -= Math.floor((Math.random() * 10) + 1);
+                const value = Math.floor((Math.random() * 10) + 1);
+                this.healthYOU -= value;
+                this.logAction("MONSTER", "ATTACK", value);
             }
         },
         checkWinYOU() {
