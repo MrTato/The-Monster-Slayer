@@ -4,9 +4,9 @@ new Vue({
         return {
             actions: [],
             gameStarted: false,
+            gameOver: false,
             healthYOU: 100,
             healthMONSTER: 100,
-            gameFinished: false,
         }
     },
     methods: {
@@ -15,6 +15,7 @@ new Vue({
                 case 'YOU':
                     if (confirm("You win! Do you want to play again?")) {
                         this.startGame();
+                        this.gameOver = true;
                     } else {
                         this.gameStarted = false;
                     }
@@ -30,22 +31,37 @@ new Vue({
         },
         startGame() {
             this.gameStarted = true;
-            this.gameFinished = false;
             this.healthYOU = 100;
+            console.log(`Start Game: ${this.healthYOU}`);
             this.healthMONSTER = 100;
         },
         attack() {
-            this.YOUattack();
+            this.playTurn();
+        },
+        specialAttack() {
+            this.playTurn("SPECIAL");
+        },
+        playTurn(attackType) {
+            switch (attackType) {
+                case "SPECIAL":
+                    this.YOUattack(10);
+                    break;
+                default:
+                    this.YOUattack(0);
+                    break;
+            }
             this.checkWinYOU();
-            if (!this.gameFinished) {
-                console.log("Monster should attack");
+            if (!this.gameOver) {
                 this.MONSTERAttack();
                 this.checkWinMONSTER();
+                console.log(`Game: ${this.healthYOU}`);
+            } else {
+                this.gameOver = false;
             }
         },
-        YOUattack() {
+        YOUattack(enhancement) {
             if (this.healthMONSTER >= 0) {
-                this.healthMONSTER -= Math.round((Math.random() * 10) + 1);
+                this.healthMONSTER -= Math.round((Math.random() * 10) + 1 + enhancement);
             }
         },
         MONSTERAttack() {
@@ -56,14 +72,12 @@ new Vue({
         checkWinYOU() {
             if (this.healthMONSTER <= 0) {
                 this.healthMONSTER = 0;
-                this.gameFinished = true;
                 this.win('YOU');
             }
         },
         checkWinMONSTER() {
             if (this.healthYOU <= 0) {
                 this.healthYOU = 0;
-                this.gameFinished = true;
                 this.win('MONSTER');
             }
         }
