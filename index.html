@@ -27,7 +27,7 @@
             </div>
         </div>
     </section>
-    <section class="row controls">
+    <section class="row controls" v-if="!gameStarted">
         <div class="small-12 columns">
             <button id="start-game" v-on:click="startGame">START NEW GAME</button>
         </div>
