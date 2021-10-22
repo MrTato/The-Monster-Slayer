@@ -41,10 +41,16 @@ new Vue({
         specialAttack() {
             this.playTurn("SPECIAL");
         },
+        heal() {
+            this.playTurn("HEAL");
+        },
         playTurn(attackType) {
             switch (attackType) {
                 case "SPECIAL":
                     this.YOUattack(10);
+                    break;
+                case "HEAL":
+                    this.YOUheal(0);
                     break;
                 default:
                     this.YOUattack(0);
@@ -62,6 +68,14 @@ new Vue({
         YOUattack(enhancement) {
             if (this.healthMONSTER >= 0) {
                 this.healthMONSTER -= Math.round((Math.random() * 10) + 1 + enhancement);
+            }
+        },
+        YOUheal(enhancement) {
+            if (this.healthYOU < 100) {
+                this.healthYOU += Math.round((Math.random() * 10) + 1 + enhancement);
+                if (this.healthYOU > 100) {
+                    this.healthYOU = 100;
+                }
             }
         },
         MONSTERAttack() {
