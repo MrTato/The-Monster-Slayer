@@ -19,19 +19,7 @@ new Vue({
             actions: [],
             gameStarted: false,
             healthYOU: 100,
-            healthbarYOU: {
-                backgroundColor: "green",
-                margin: 0,
-                color: "white",
-                width: `100%`,
-            },
             healthMONSTER: 100,
-            healthbarMONSTER: {
-                backgroundColor: "green",
-                margin: 0,
-                color: "white",
-                width: `100%`,
-            },
         }
     },
     methods: {
@@ -62,16 +50,14 @@ new Vue({
             if (this.healthMONSTER >= 0 && this.healthYOU >= 0) {
                 this.healthMONSTER -= Math.round((Math.random() * 10) + 1);
                 this.healthYOU -= Math.round((Math.random() * 10) + 1);
-                if (this.healthMONSTER < 0) {
+                if (this.healthMONSTER <= 0) {
                     this.healthMONSTER = 0;
                     this.win('YOU');
                 }
-                if (this.healthYOU < 0) {
+                if (this.healthYOU <= 0) {
                     this.healthYOU = 0;
                     this.win('MONSTER');
                 }
-                this.healthbarMONSTER.width = `${this.healthMONSTER}%`;
-                this.healthbarYOU.width = `${this.healthYOU}%`;
             }
         }
     }
