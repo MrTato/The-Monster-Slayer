@@ -12,6 +12,7 @@ new Vue({
     el: "#app",
     data() {
         return {
+            actions: [],
             gameStarted: false,
             healthYOU: 100,
             healthbarYOU: {
