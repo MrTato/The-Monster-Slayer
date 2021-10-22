@@ -86,6 +86,9 @@ new Vue({
         heal() {
             this.playTurn("HEAL");
         },
+        giveUp() {
+            this.gameStarted = false;
+        },
         playTurn(attackType) {
             switch (attackType) {
                 case "SPECIAL":
